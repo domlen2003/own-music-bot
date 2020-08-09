@@ -20,13 +20,6 @@ client.once('ready', () =>
   console.log(`Logged in as ${client.user.tag}!`);   
 })
 
-client.on("message", (msg) => {
-    const message = msg.content.trim();
-    const command = message.substring(pre.length).split(/[ \n]/)[0].trim();
-    const suffix = message.substring(pre.length + command.length).trim();
-    const args = message.slice(pre.length + command.length).trim().split(/ +/g);
-})
-
 client.on('message', msg => 
 {
     if (!msg.content.startsWith(pre) || msg.author.bot) return
@@ -38,7 +31,7 @@ client.on('message', msg =>
     cmd = cmd.toLowerCase();
 
     if (!client.commands.has(cmd))return
-    try {client.commands.get(command).execute(message, command, suffix, args); msg.delete({ timeout: 500 })} 
+    try {client.commands.get(command).execute(Discord, client, ytdl, searcher, msg, command, suffix, args); msg.delete({ timeout: 500 })} 
     catch (error) 
     {
         console.error(error);
@@ -47,6 +40,6 @@ client.on('message', msg =>
 
 })
 
-process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
+process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection'));
 
 client.login(token);
